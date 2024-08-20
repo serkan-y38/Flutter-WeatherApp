@@ -4,6 +4,8 @@ import 'package:weather/core/di/di.dart';
 import 'package:weather/core/navigation/navigation.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
 
+import 'core/theme/theme.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDependencies();
@@ -13,7 +15,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -24,10 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Weather app',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: darkTheme,
         onGenerateRoute: RouteClass.generateRoute,
         initialRoute: RouteNavigation.homeScreen,
         debugShowCheckedModeBanner: false,

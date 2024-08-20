@@ -207,6 +207,7 @@ class MainResponse {
         tempMin: tempMin,
         tempMax: tempMax,
         humidity: humidity,
+        pressure: pressure,
         seaLevel: seaLevel,
         grndLevel: grndLevel);
   }

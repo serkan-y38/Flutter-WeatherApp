@@ -66,6 +66,11 @@ dependencies:
   # shared preferences
   shared_preferences: ^2.3.1
 
+  # flutter svg
+  flutter_svg: ^2.0.10+1
+
+  syncfusion_flutter_gauges: ^26.2.10
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -121,3 +126,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  assets:
+    - assets/
+
