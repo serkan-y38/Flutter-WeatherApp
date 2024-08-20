@@ -103,8 +103,8 @@ class CurrentWeatherResponse {
 }
 
 class CoordResponse {
-  double? lon;
-  double? lat;
+  num? lon;
+  num? lat;
 
   CoordResponse({this.lon, this.lat});
 
@@ -156,10 +156,10 @@ class WeatherResponse {
 }
 
 class MainResponse {
-  double? temp;
-  double? feelsLike;
-  double? tempMin;
-  double? tempMax;
+  num? temp;
+  num? feelsLike;
+  num? tempMin;
+  num? tempMax;
   int? pressure;
   int? humidity;
   int? seaLevel;
@@ -214,7 +214,7 @@ class MainResponse {
 }
 
 class WindResponse {
-  double? speed;
+  num? speed;
   int? deg;
 
   WindResponse({this.speed, this.deg});

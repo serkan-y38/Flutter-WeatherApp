@@ -7,7 +7,7 @@ import '../../../../domain/entity/current_weather_entity.dart';
 Widget buildCurrentWeatherWidget(
     CurrentWeatherEntity entity, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.all(8),
+    padding: const EdgeInsets.all(12),
     child: Container(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
@@ -31,7 +31,7 @@ Widget buildCurrentWeatherWidget(
                             child: Icon(Icons.date_range),
                           ),
                           Text(
-                              "${getDayOfWeek(entity.dt.toString())}, ${formatDateFromTimestamp(entity.dt.toString())}")
+                              "${getDayOfWeek(entity.dt.toString())}, ${formatDateFromTimestamp(entity.dt! + entity.timezone!)}")
                         ],
                       ),
                     ),

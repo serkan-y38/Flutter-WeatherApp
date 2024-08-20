@@ -15,9 +15,9 @@ String getDayOfWeek(String timestampStr) {
   return daysOfWeek[weekday - 1];
 }
 
-String formatDateFromTimestamp(String timestamp) {
-  DateTime date =
-      DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
+String formatDateFromTimestamp(int timestamp,
+    {bool formatDateAndTime = false}) {
+  DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
 
   const months = [
     'January',
@@ -37,8 +37,13 @@ String formatDateFromTimestamp(String timestamp) {
   int day = date.day;
   String month = months[date.month - 1];
   int year = date.year;
+  int hour = date.hour;
+  int minute = date.minute;
 
-  return '$day $month $year';
+  if(!formatDateAndTime) {
+    return '$day $month $year';
+  }
+  return '$day $month $year $hour:$minute';
 }
 
 String getTimeFromTimeStamp(int timestamp) {
@@ -63,13 +68,10 @@ String formatTimezone(int seconds) {
   return '$sign${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
 }
 
-
-
-
 String fahrenheitToCelsius(double fahrenheit) {
   return ((fahrenheit - 32) * 5 / 9).toString();
 }
 
-String kelvinToCelsius(double kelvin) {
+String kelvinToCelsius(num kelvin) {
   return (kelvin - 273.12).toStringAsFixed(1);
 }

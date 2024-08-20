@@ -11,10 +11,11 @@ Widget buildSunriseSunsetWidget(
       getMinuteFromTimeStamp(entity.sys!.sunrise! + entity.timezone!);
 
   var maxValue = sunsetMinute - sunriseMinute;
-  var progress = getMinuteFromCurrentTime() - sunriseMinute;
+  var progress = getMinuteFromTimeStamp(entity.dt! + entity.timezone!) - sunriseMinute;
+  if(getMinuteFromTimeStamp(entity.dt! + entity.timezone!) > sunsetMinute) progress = maxValue;
 
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8),
+    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
     child: Container(
       height: 300,
       decoration: BoxDecoration(

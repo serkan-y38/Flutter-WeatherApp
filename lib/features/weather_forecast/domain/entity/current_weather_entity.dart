@@ -30,8 +30,8 @@ class CurrentWeatherEntity {
 }
 
 class CoordEntity {
-  final double? lon;
-  final double? lat;
+  final num? lon;
+  final num? lat;
 
   const CoordEntity({this.lon, this.lat});
 }
@@ -46,10 +46,10 @@ class WeatherEntity {
 }
 
 class MainEntity {
-  final double? temp;
-  final double? feelsLike;
-  final double? tempMin;
-  final double? tempMax;
+  final num? temp;
+  final num? feelsLike;
+  final num? tempMin;
+  final num? tempMax;
   final int? pressure;
   final int? humidity;
   final int? seaLevel;
@@ -67,7 +67,7 @@ class MainEntity {
 }
 
 class WindEntity {
-  final double? speed;
+  final num? speed;
   final int? deg;
 
   const WindEntity({this.speed, this.deg});
