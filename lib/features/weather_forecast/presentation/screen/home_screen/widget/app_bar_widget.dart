@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget buildAppBar() {
+Widget buildAppBar({required Function() onSettingsClicked}) {
   return SliverAppBar(
       floating: true,
       snap: true,
@@ -11,7 +11,7 @@ Widget buildAppBar() {
           icon: const Icon(Icons.settings),
           tooltip: 'Settings',
           onPressed: () {
-            // TODO
+            onSettingsClicked();
           },
         ),
         IconButton(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/core/navigation/navigation.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/weather_forecast_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/app_bar_widget.dart';
@@ -28,9 +29,9 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: _buildGradientContainer(),
+    return Scaffold(
+        body: SafeArea(
+      child: _buildGradientContainer(),
     ));
   }
 
@@ -60,7 +61,11 @@ class _HomeScreen extends State<HomeScreen> {
 
   Widget _buildScreenContents() {
     return NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [buildAppBar()],
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              buildAppBar(
+                  onSettingsClicked: () => Navigator.pushNamed(
+                      context, RouteNavigation.settingsScreen))
+            ],
         body: _buildBody());
   }
 

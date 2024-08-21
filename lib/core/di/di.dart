@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/features/weather_forecast/data/repository/weather_repository_impl.dart';
 import 'package:weather/features/weather_forecast/data/sources/remote/weather_api_service.dart';
 import 'package:weather/features/weather_forecast/domain/repository/weather_repository.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_current_weather_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_weather_forecast_use_case.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
+import 'package:weather/features/weather_forecast/presentation/provider/theme_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/weather_forecast_provider.dart';
 
 final singleton = GetIt.instance;
@@ -30,4 +32,7 @@ Future<void> initializeDependencies() async {
 
   singleton.registerFactory<WeatherForecastProvider>(
       () => WeatherForecastProvider(singleton()));
+
+  final preference = await SharedPreferences.getInstance();
+  singleton.registerSingleton<ThemeProvider>(ThemeProvider(preference));
 }

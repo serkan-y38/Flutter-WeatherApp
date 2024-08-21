@@ -17,7 +17,7 @@ Widget buildWeatherForecastWidget(BuildContext context) {
       child: Consumer<WeatherForecastProvider>(
         builder: (context, provider, child) {
           if (provider.weatherForecast is Loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SizedBox();
           } else if (provider.weatherForecast is Success) {
             final weather = (provider.weatherForecast as Success).data
                 as WeatherForecastEntity;
@@ -25,7 +25,8 @@ Widget buildWeatherForecastWidget(BuildContext context) {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return _buildListItem(weather.list![index], weather.timezone!);
+                return _buildListItem(
+                    weather.list![index], weather.timezone!, context);
               },
               itemCount: weather.list!.length,
             );
@@ -41,16 +42,17 @@ Widget buildWeatherForecastWidget(BuildContext context) {
   );
 }
 
-Widget _buildListItem(ContentEntity entity, int timeZone) {
+Widget _buildListItem(
+    ContentEntity entity, int timeZone, BuildContext context) {
   return ExpansionTile(
     leading: CachedNetworkImage(
-      width: 32,
-      height: 32,
+      width: 36,
+      height: 36,
       imageUrl:
           "https://openweathermap.org/img/wn/${entity.weather!.first.icon!}@2x.png",
       imageBuilder: (context, imageProvider) => Container(
-        width: 32,
-        height: 32,
+        width: 36,
+        height: 36,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: imageProvider,
@@ -64,19 +66,42 @@ Widget _buildListItem(ContentEntity entity, int timeZone) {
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(formatDateFromTimestamp(entity.dt! + timeZone,
-            formatDateAndTime: true)),
-        Text(kelvinToCelsius(entity.main!.temp!)),
+        Text(
+          formatDateFromTimestamp(entity.dt! + timeZone,
+              formatDateAndTime: true),
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall
+              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+        ),
+        Text(
+          "${kelvinToCelsius(entity.main!.temp!)}°C",
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall
+              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+        ),
       ],
     ),
     children: [
-      Padding(padding: const EdgeInsets.only(bottom: 12), child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text("${entity!.weather!.first!.main!}, ${entity!.weather!.first!.description!}"),
-          Text("Wind ${entity!.wind!.speed} kp/h"),
-        ],
-      ),)
+      Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              "${entity.weather!.first.main!}, ${entity.weather!.first.description!}",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+            Text(
+              "Wind ${entity.wind!.speed} kp/h",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+          ],
+        ),
+      )
     ],
   );
 }

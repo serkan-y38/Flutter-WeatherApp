@@ -26,12 +26,23 @@ Widget buildCurrentWeatherWidget(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Row(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(right: 8),
-                            child: Icon(Icons.date_range),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Icon(Icons.date_range,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                           ),
                           Text(
-                              "${getDayOfWeek(entity.dt.toString())}, ${formatDateFromTimestamp(entity.dt! + entity.timezone!)}")
+                            "${getDayOfWeek(entity.dt.toString())}, ${formatDateFromTimestamp(entity.dt! + entity.timezone!)}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                          )
                         ],
                       ),
                     ),
@@ -39,11 +50,25 @@ Widget buildCurrentWeatherWidget(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Row(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(right: 8),
-                            child: Icon(Icons.location_city),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Icon(
+                              Icons.location_city,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
                           ),
-                          Text("${entity.sys!.country!} - ${entity.name!}")
+                          Text(
+                            "${entity.sys!.country!} - ${entity.name!}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                          )
                         ],
                       ),
                     ),
@@ -51,11 +76,25 @@ Widget buildCurrentWeatherWidget(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Row(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(right: 8),
-                            child: Icon(Icons.wb_cloudy_rounded),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Icon(
+                              Icons.wb_cloudy_rounded,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
                           ),
-                          Text(entity.weather!.first.description!)
+                          Text(
+                            entity.weather!.first.description!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                          )
                         ],
                       ),
                     ),
@@ -63,7 +102,13 @@ Widget buildCurrentWeatherWidget(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
                         "${kelvinToCelsius(entity.main!.feelsLike!)}°C",
-                        style: Theme.of(context).textTheme.displayMedium,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium
+                            ?.copyWith(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                       ),
                     )
                   ],
@@ -83,8 +128,11 @@ Widget buildCurrentWeatherWidget(
                           ),
                         ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Center(child: Icon(Icons.error)),
+                      errorWidget: (context, url, error) => Center(
+                          child: Icon(
+                        Icons.error,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )),
                     )
                   ],
                 )
@@ -101,9 +149,17 @@ Widget buildCurrentWeatherWidget(
                         "assets/raindrops_dark.svg",
                         height: 24,
                         width: 24,
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurfaceVariant,
+                            BlendMode.srcIn),
                       ),
                     ),
-                    Text("%${entity.main!.humidity}")
+                    Text(
+                      "%${entity.main!.humidity}",
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                    )
                   ],
                 ),
                 Row(
@@ -114,9 +170,17 @@ Widget buildCurrentWeatherWidget(
                         "assets/wind_dark.svg",
                         height: 24,
                         width: 24,
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
+                            BlendMode.srcIn),
                       ),
                     ),
-                    Text("${entity.wind!.speed} kp/h")
+                    Text(
+                      "${entity.wind!.speed} kp/h",
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                    )
                   ],
                 ),
                 Row(
@@ -127,9 +191,17 @@ Widget buildCurrentWeatherWidget(
                         "assets/pressure_dark.svg",
                         height: 24,
                         width: 24,
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurfaceVariant,
+                            BlendMode.srcIn),
                       ),
                     ),
-                    Text("${entity.main!.pressure} hPa")
+                    Text(
+                      "${entity.main!.pressure} hPa",
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                    )
                   ],
                 )
               ],

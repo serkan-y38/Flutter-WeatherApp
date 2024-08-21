@@ -4,13 +4,13 @@ String getDayOfWeek(String timestampStr) {
   int weekday = date.weekday;
 
   const daysOfWeek = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
   ];
   return daysOfWeek[weekday - 1];
 }
@@ -20,18 +20,18 @@ String formatDateFromTimestamp(int timestamp,
   DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
 
   const months = [
-    'January',
-    'February',
-    'March',
-    'April',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
     'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
   ];
 
   int day = date.day;
