@@ -96,7 +96,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `places_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `countryCode` TEXT, `place` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `places_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `countryCode` TEXT, `city` TEXT, `place` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -121,6 +121,7 @@ class _$PlaceDao extends PlaceDao {
             (PlaceModel item) => <String, Object?>{
                   'id': item.id,
                   'countryCode': item.countryCode,
+                  'city': item.city,
                   'place': item.place
                 });
 
@@ -133,20 +134,23 @@ class _$PlaceDao extends PlaceDao {
   final InsertionAdapter<PlaceModel> _placeModelInsertionAdapter;
 
   @override
-  Future<List<PlaceModel>> getPlaces() async {
-    return _queryAdapter.queryList('SELECT * FROM places_table',
-        mapper: (Map<String, Object?> row) => PlaceModel(
-            id: row['id'] as int?,
-            countryCode: row['countryCode'] as String?,
-            place: row['place'] as String?));
-  }
-
-  @override
-  Future<bool?> isPlacesSaved({int id = 0}) async {
+  Future<bool?> isPlacesSaved({int id = 1}) async {
     return _queryAdapter.query(
         'SELECT EXISTS(SELECT 1 FROM places_table WHERE id = ?1 LIMIT 1)',
         mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
         arguments: [id]);
+  }
+
+  @override
+  Future<List<PlaceModel>> searchPlace(String query) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM places_table WHERE place LIKE ?1',
+        mapper: (Map<String, Object?> row) => PlaceModel(
+            id: row['id'] as int?,
+            countryCode: row['countryCode'] as String?,
+            city: row['city'] as String?,
+            place: row['place'] as String?),
+        arguments: [query]);
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget buildAppBar({required Function() onSettingsClicked}) {
+Widget buildAppBar({required Function() onSettingsClicked, required Function() onSearchClicked}) {
   return SliverAppBar(
       floating: true,
       snap: true,
@@ -18,7 +18,7 @@ Widget buildAppBar({required Function() onSettingsClicked}) {
           icon: const Icon(Icons.search),
           tooltip: 'Search',
           onPressed: () {
-            // TODO
+            onSearchClicked();
           },
         ),
       ]);

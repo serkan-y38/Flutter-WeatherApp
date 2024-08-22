@@ -6,7 +6,7 @@ import 'package:weather/features/weather_forecast/data/repository/remote/weather
 import 'package:weather/features/weather_forecast/data/sources/remote/weather_api_service.dart';
 import 'package:weather/features/weather_forecast/domain/repository/local/place_repository.dart';
 import 'package:weather/features/weather_forecast/domain/repository/remote/weather_repository.dart';
-import 'package:weather/features/weather_forecast/domain/use_case/local/get_places_use_case.dart';
+import 'package:weather/features/weather_forecast/domain/use_case/local/search_place_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/local/insert_places_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/local/is_places_saved_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_current_weather_use_case.dart';
@@ -41,12 +41,11 @@ Future<void> initializeDependencies() async {
   singleton.registerFactory<WeatherForecastProvider>(
       () => WeatherForecastProvider(singleton()));
 
-
   final preference = await SharedPreferences.getInstance();
   singleton.registerSingleton<ThemeProvider>(ThemeProvider(preference));
 
   final localDatabase =
-  await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+      await $FloorAppDatabase.databaseBuilder('app_database.db').build();
 
   singleton.registerSingleton<AppDatabase>(localDatabase);
 
@@ -56,13 +55,12 @@ Future<void> initializeDependencies() async {
   singleton.registerSingleton<IsPlacesSavedUseCase>(
       IsPlacesSavedUseCase(singleton()));
 
-  singleton.registerFactory<GetPlacesUseCase>(
-          () => GetPlacesUseCase(singleton()));
+  singleton.registerFactory<SearchPlaceUseCase>(
+      () => SearchPlaceUseCase(singleton()));
 
   singleton.registerFactory<InsertPlacesUseCase>(
-          () => InsertPlacesUseCase(singleton()));
+      () => InsertPlacesUseCase(singleton()));
 
   singleton.registerFactory<PlaceProvider>(
-          () => PlaceProvider(singleton(), singleton()));
-
+      () => PlaceProvider(singleton(), singleton(), singleton()));
 }

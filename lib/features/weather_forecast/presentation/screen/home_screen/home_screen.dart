@@ -6,6 +6,7 @@ import 'package:weather/features/weather_forecast/presentation/provider/weather_
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/app_bar_widget.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/build_sunrise_sunset_widget.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/current_weather_widget.dart';
+import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/place_search_delegate.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/weather_forecast_widget.dart';
 import '../../../../../core/resource/resource.dart';
 import '../../../domain/entity/remote/current_weather_entity.dart';
@@ -64,7 +65,21 @@ class _HomeScreen extends State<HomeScreen> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
               buildAppBar(
                   onSettingsClicked: () => Navigator.pushNamed(
-                      context, RouteNavigation.settingsScreen))
+                      context, RouteNavigation.settingsScreen),
+                  onSearchClicked: () {
+                    showSearch(
+                        context: context,
+                        delegate: PlaceSearchDelegate(onPlaceSelected: (place) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            context
+                                .read<CurrentWeatherProvider>()
+                                .getCurrentWeather(place);
+                            context
+                                .read<WeatherForecastProvider>()
+                                .getWeatherForecast(place);
+                          });
+                        }));
+                  })
             ],
         body: _buildBody());
   }

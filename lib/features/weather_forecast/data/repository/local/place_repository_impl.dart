@@ -13,10 +13,10 @@ class PlaceRepositoryImpl implements PlaceRepository {
   PlaceRepositoryImpl(this._appDatabase);
 
   @override
-  Future<Resource<List<PlaceEntity>>> getPlaces() async {
+  Future<Resource<List<PlaceEntity>>> searchPlace(String query) async {
     try {
       Loading;
-      final places = await _appDatabase.placeDao.getPlaces();
+      final places = await _appDatabase.placeDao.searchPlace(query);
       return Success(places.map((e) => e.placeModelToDomain()).toList());
     } on DioException catch (e) {
       return Error(DioException(
@@ -34,7 +34,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
 
   @override
   Future<void> insertPlaces() async {
-    String citiesJson = await rootBundle.loadString('assets/cities.json');
+    String citiesJson = await rootBundle.loadString('assets/places.json');
 
     List<PlaceModel> citiesList = List<PlaceModel>.from(json
         .decode(citiesJson)
