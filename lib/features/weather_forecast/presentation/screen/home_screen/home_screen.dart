@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/core/navigation/navigation.dart';
-import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
-import 'package:weather/features/weather_forecast/presentation/provider/weather_forecast_provider.dart';
+import 'package:weather/features/weather_forecast/presentation/provider/weather_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/app_bar_widget.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/build_sunrise_sunset_widget.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/current_weather_widget.dart';
@@ -23,8 +22,8 @@ class _HomeScreen extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CurrentWeatherProvider>().getCurrentWeather("tokyo");
-      context.read<WeatherForecastProvider>().getWeatherForecast("tokyo");
+      context.read<WeatherProvider>().getCurrentWeather("tokyo");
+      context.read<WeatherProvider>().getWeatherForecast("tokyo");
     });
   }
 
@@ -72,10 +71,10 @@ class _HomeScreen extends State<HomeScreen> {
                         delegate: PlaceSearchDelegate(onPlaceSelected: (place) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             context
-                                .read<CurrentWeatherProvider>()
+                                .read<WeatherProvider>()
                                 .getCurrentWeather(place);
                             context
-                                .read<WeatherForecastProvider>()
+                                .read<WeatherProvider>()
                                 .getWeatherForecast(place);
                           });
                         }));
@@ -85,7 +84,7 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   Widget _buildBody() {
-    return Consumer<CurrentWeatherProvider>(
+    return Consumer<WeatherProvider>(
       builder: (context, provider, child) {
         if (provider.currentWeather is Loading) {
           return const Center(child: CircularProgressIndicator());

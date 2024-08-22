@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/core/di/di.dart';
 import 'package:weather/core/navigation/navigation.dart';
-import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/theme_provider.dart';
-import 'package:weather/features/weather_forecast/presentation/provider/weather_forecast_provider.dart';
-
+import 'package:weather/features/weather_forecast/presentation/provider/weather_provider.dart';
 import 'core/theme/theme.dart';
 
 void main() async {
@@ -14,11 +12,7 @@ void main() async {
   await initializeDependencies();
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<CurrentWeatherProvider>(
-        create: (context) => singleton(),
-      ),
-      ChangeNotifierProvider<WeatherForecastProvider>(
-          create: (context) => singleton()),
+      ChangeNotifierProvider<WeatherProvider>(create: (context) => singleton()),
       ChangeNotifierProvider<ThemeProvider>(create: (context) => singleton()),
       ChangeNotifierProvider<PlaceProvider>(create: (context) => singleton()),
     ],

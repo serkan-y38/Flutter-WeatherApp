@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:weather/core/utils/date_utils.dart';
 import '../../../../../../core/resource/resource.dart';
 import '../../../../domain/entity/remote/weather_response_entity.dart';
-import '../../../provider/weather_forecast_provider.dart';
+import '../../../provider/weather_provider.dart';
 
 Widget buildWeatherForecastWidget(BuildContext context) {
   return Padding(
@@ -14,7 +14,7 @@ Widget buildWeatherForecastWidget(BuildContext context) {
         color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
-      child: Consumer<WeatherForecastProvider>(
+      child: Consumer<WeatherProvider>(
         builder: (context, provider, child) {
           if (provider.weatherForecast is Loading) {
             return const SizedBox();

@@ -11,11 +11,9 @@ import 'package:weather/features/weather_forecast/domain/use_case/local/insert_p
 import 'package:weather/features/weather_forecast/domain/use_case/local/is_places_saved_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_current_weather_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_weather_forecast_use_case.dart';
-import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/theme_provider.dart';
-import 'package:weather/features/weather_forecast/presentation/provider/weather_forecast_provider.dart';
-
+import 'package:weather/features/weather_forecast/presentation/provider/weather_provider.dart';
 import '../../features/weather_forecast/data/sources/local/app_database.dart';
 
 final singleton = GetIt.instance;
@@ -35,11 +33,9 @@ Future<void> initializeDependencies() async {
   singleton.registerSingleton<GetWeatherForecastUseCase>(
       GetWeatherForecastUseCase(singleton()));
 
-  singleton.registerFactory<CurrentWeatherProvider>(
-      () => CurrentWeatherProvider(singleton()));
+  singleton.registerFactory<WeatherProvider>(
+      () => WeatherProvider(singleton(), singleton()));
 
-  singleton.registerFactory<WeatherForecastProvider>(
-      () => WeatherForecastProvider(singleton()));
 
   final preference = await SharedPreferences.getInstance();
   singleton.registerSingleton<ThemeProvider>(ThemeProvider(preference));

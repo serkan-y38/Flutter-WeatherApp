@@ -146,7 +146,7 @@ Widget buildCurrentWeatherWidget(
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: SvgPicture.asset(
-                        "assets/raindrops_dark.svg",
+                        "assets/raindrops.svg",
                         height: 24,
                         width: 24,
                         colorFilter: ColorFilter.mode(
@@ -167,7 +167,7 @@ Widget buildCurrentWeatherWidget(
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: SvgPicture.asset(
-                        "assets/wind_dark.svg",
+                        "assets/wind.svg",
                         height: 24,
                         width: 24,
                         colorFilter: ColorFilter.mode(
@@ -188,7 +188,7 @@ Widget buildCurrentWeatherWidget(
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: SvgPicture.asset(
-                        "assets/pressure_dark.svg",
+                        "assets/pressure.svg",
                         height: 24,
                         width: 24,
                         colorFilter: ColorFilter.mode(
