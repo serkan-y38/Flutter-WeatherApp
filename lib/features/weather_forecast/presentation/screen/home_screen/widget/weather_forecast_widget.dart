@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/core/utils/date_utils.dart';
 import '../../../../../../core/resource/resource.dart';
-import '../../../../domain/entity/weather_response_entity.dart';
+import '../../../../domain/entity/remote/weather_response_entity.dart';
 import '../../../provider/weather_forecast_provider.dart';
 
 Widget buildWeatherForecastWidget(BuildContext context) {

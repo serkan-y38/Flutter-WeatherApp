@@ -8,7 +8,7 @@ import 'package:weather/features/weather_forecast/presentation/screen/home_scree
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/current_weather_widget.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/weather_forecast_widget.dart';
 import '../../../../../core/resource/resource.dart';
-import '../../../domain/entity/current_weather_entity.dart';
+import '../../../domain/entity/remote/current_weather_entity.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

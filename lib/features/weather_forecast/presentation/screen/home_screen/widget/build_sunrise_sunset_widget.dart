@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import '../../../../../../core/utils/date_utils.dart';
-import '../../../../domain/entity/current_weather_entity.dart';
+import '../../../../domain/entity/remote/current_weather_entity.dart';
 
 Widget buildSunriseSunsetWidget(
     CurrentWeatherEntity entity, BuildContext context) {

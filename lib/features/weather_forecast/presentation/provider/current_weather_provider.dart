@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:weather/core/resource/resource.dart';
-import 'package:weather/features/weather_forecast/domain/entity/current_weather_entity.dart';
+import 'package:weather/features/weather_forecast/domain/entity/remote/current_weather_entity.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_current_weather_use_case.dart';
 
 class CurrentWeatherProvider extends ChangeNotifier {

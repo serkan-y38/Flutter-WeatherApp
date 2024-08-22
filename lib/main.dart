@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather/core/di/di.dart';
 import 'package:weather/core/navigation/navigation.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/current_weather_provider.dart';
+import 'package:weather/features/weather_forecast/presentation/provider/place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/theme_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/weather_forecast_provider.dart';
 
@@ -18,7 +19,8 @@ void main() async {
       ),
       ChangeNotifierProvider<WeatherForecastProvider>(
           create: (context) => singleton()),
-      ChangeNotifierProvider<ThemeProvider>(create: (context) => singleton())
+      ChangeNotifierProvider<ThemeProvider>(create: (context) => singleton()),
+      ChangeNotifierProvider<PlaceProvider>(create: (context) => singleton()),
     ],
     child: const MyApp(),
   ));
@@ -37,6 +39,7 @@ class _MyApp extends State<MyApp> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ThemeProvider>().getTheme();
+      context.read<PlaceProvider>().isPlacesSaved();
     });
   }
 

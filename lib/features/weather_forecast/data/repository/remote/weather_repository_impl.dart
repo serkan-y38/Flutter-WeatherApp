@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:weather/core/resource/resource.dart';
 import 'package:weather/features/weather_forecast/data/sources/remote/weather_api_service.dart';
-import 'package:weather/features/weather_forecast/domain/entity/current_weather_entity.dart';
-import 'package:weather/features/weather_forecast/domain/entity/weather_response_entity.dart';
-import 'package:weather/features/weather_forecast/domain/repository/weather_repository.dart';
+import 'package:weather/features/weather_forecast/domain/entity/remote/current_weather_entity.dart';
+import 'package:weather/features/weather_forecast/domain/entity/remote/weather_response_entity.dart';
+import 'package:weather/features/weather_forecast/domain/repository/remote/weather_repository.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherApiService _weatherApiService;

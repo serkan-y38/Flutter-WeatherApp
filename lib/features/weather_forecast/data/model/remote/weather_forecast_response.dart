@@ -1,4 +1,4 @@
-import 'package:weather/features/weather_forecast/domain/entity/weather_response_entity.dart';
+import 'package:weather/features/weather_forecast/domain/entity/remote/weather_response_entity.dart';
 
 class WeatherForecastResponse {
   String? cod;

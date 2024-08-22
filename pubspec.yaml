@@ -69,6 +69,9 @@ dependencies:
   # flutter svg
   flutter_svg: ^2.0.10+1
 
+  # database
+  floor: ^1.5.0
+
   syncfusion_flutter_gauges: ^26.2.10
 
 dev_dependencies:
