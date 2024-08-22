@@ -3,7 +3,7 @@ import 'package:weather/features/weather_forecast/domain/entity/local/place_enti
 import '../../../../../core/resource/resource.dart';
 
 abstract class PlaceRepository {
-  Future<Resource<List<PlaceEntity>>> searchPlace(String query);
+  Future<Resource<List<PlaceEntity>>> searchPlace(String query, int lastId, int limit);
 
   Future<void> insertPlaces();
 

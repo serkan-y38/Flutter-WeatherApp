@@ -134,7 +134,7 @@ class _$PlaceDao extends PlaceDao {
   final InsertionAdapter<PlaceModel> _placeModelInsertionAdapter;
 
   @override
-  Future<bool?> isPlacesSaved({int id = 1}) async {
+  Future<bool?> isPlacesSaved({int id = 0}) async {
     return _queryAdapter.query(
         'SELECT EXISTS(SELECT 1 FROM places_table WHERE id = ?1 LIMIT 1)',
         mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
@@ -142,15 +142,15 @@ class _$PlaceDao extends PlaceDao {
   }
 
   @override
-  Future<List<PlaceModel>> searchPlace(String query) async {
+  Future<List<PlaceModel>> searchPlace(
+    String query,
+    int lastId,
+    int limit,
+  ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM places_table WHERE place LIKE ?1',
-        mapper: (Map<String, Object?> row) => PlaceModel(
-            id: row['id'] as int?,
-            countryCode: row['countryCode'] as String?,
-            city: row['city'] as String?,
-            place: row['place'] as String?),
-        arguments: [query]);
+        'SELECT * FROM places_table WHERE place LIKE ?1 AND id > ?2 ORDER BY id LIMIT ?3',
+        mapper: (Map<String, Object?> row) => PlaceModel(id: row['id'] as int?, countryCode: row['countryCode'] as String?, city: row['city'] as String?, place: row['place'] as String?),
+        arguments: [query, lastId, limit]);
   }
 
   @override

@@ -32,8 +32,14 @@ class PlaceProvider extends ChangeNotifier {
     _searchResult = Loading();
     notifyListeners();
 
-    final result = await _searchPlaceUseCase.call(query);
+    final result = await _searchPlaceUseCase.call(query, 1, 20);
     _searchResult = result;
+    notifyListeners();
+  }
+
+  Future<void> loadMore(String query) async {
+    final result = await _searchPlaceUseCase.call(query, _searchResult!.data!.last.id!, 20);
+    _searchResult?.data?.addAll(result.data!);
     notifyListeners();
   }
 

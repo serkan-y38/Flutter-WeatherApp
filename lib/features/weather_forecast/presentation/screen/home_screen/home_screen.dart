@@ -68,7 +68,8 @@ class _HomeScreen extends State<HomeScreen> {
                   onSearchClicked: () {
                     showSearch(
                         context: context,
-                        delegate: PlaceSearchDelegate(onPlaceSelected: (place) {
+                        delegate: PlaceSearchDelegate(context,
+                            onPlaceSelected: (place) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             context
                                 .read<WeatherProvider>()
@@ -88,6 +89,9 @@ class _HomeScreen extends State<HomeScreen> {
       builder: (context, provider, child) {
         if (provider.currentWeather is Loading) {
           return const Center(child: CircularProgressIndicator());
+        } else if (provider.currentWeather is Error) {
+          final error = (provider.currentWeather as Error).dio;
+          return Center(child: Text("Error: ${error?.error}"));
         } else if (provider.currentWeather is Success) {
           final weather =
               (provider.currentWeather as Success).data as CurrentWeatherEntity;
@@ -107,9 +111,6 @@ class _HomeScreen extends State<HomeScreen> {
               }
             },
           );
-        } else if (provider.currentWeather is Error) {
-          final error = (provider.currentWeather as Error).dio;
-          return Center(child: Text("Error: ${error?.error}"));
         } else {
           return const Center(child: Text("No data"));
         }

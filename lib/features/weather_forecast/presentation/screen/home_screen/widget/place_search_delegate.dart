@@ -6,11 +6,25 @@ import 'package:weather/features/weather_forecast/presentation/provider/place_pr
 import '../../../../domain/entity/local/place_entity.dart';
 
 class PlaceSearchDelegate extends SearchDelegate<PlaceEntity> {
-
   Function(String)? onPlaceSelected;
+  BuildContext? context;
   String _currentQuery = "";
+  final ScrollController _controller = ScrollController();
 
-  PlaceSearchDelegate({required Function(String) this.onPlaceSelected});
+  PlaceSearchDelegate(this.context,
+      {required Function(String) this.onPlaceSelected}) {
+    _controller.addListener(() {
+      if (_controller.position.pixels >= _controller.position.maxScrollExtent &&
+          !_controller.position.outOfRange &&
+          _currentQuery != "") {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context!
+              .read<PlaceProvider>()
+              .loadMore("%${_currentQuery.toUpperCase()}%");
+        });
+      }
+    });
+  }
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -22,15 +36,13 @@ class PlaceSearchDelegate extends SearchDelegate<PlaceEntity> {
               ? SystemUiOverlayStyle.light
               : SystemUiOverlayStyle.dark,
           backgroundColor: colorScheme.surface,
-          iconTheme:
-              theme.primaryIconTheme.copyWith(color: colorScheme.onSurface),
+          iconTheme: theme.primaryIconTheme.copyWith(color: colorScheme.onSurface),
           titleTextStyle: Theme.of(context).textTheme.titleMedium,
           toolbarTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),
         inputDecorationTheme: searchFieldDecorationTheme ??
             InputDecorationTheme(
-              hintStyle:
-                  searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
+              hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
               border: InputBorder.none,
             ));
   }
@@ -90,20 +102,18 @@ class PlaceSearchDelegate extends SearchDelegate<PlaceEntity> {
       builder: (context, provider, child) {
         if (provider.searchResult is Loading) {
           return const Center(child: CircularProgressIndicator());
-
         } else if (provider.searchResult is Error) {
           return const Center(child: Icon(Icons.error));
-
         } else if (provider.searchResult is Success) {
           final searchResult = provider.searchResult?.data ?? [];
 
           return ListView.builder(
+            controller: _controller,
             itemCount: searchResult.length,
             itemBuilder: (context, index) {
               return _buildListItem(searchResult[index], context);
             },
           );
-
         } else {
           return const SizedBox();
         }

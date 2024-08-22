@@ -13,10 +13,11 @@ class PlaceRepositoryImpl implements PlaceRepository {
   PlaceRepositoryImpl(this._appDatabase);
 
   @override
-  Future<Resource<List<PlaceEntity>>> searchPlace(String query) async {
+  Future<Resource<List<PlaceEntity>>> searchPlace(
+      String query, int lastId, int limit) async {
     try {
       Loading;
-      final places = await _appDatabase.placeDao.searchPlace(query);
+      final places = await _appDatabase.placeDao.searchPlace(query, lastId, limit);
       return Success(places.map((e) => e.placeModelToDomain()).toList());
     } on DioException catch (e) {
       return Error(DioException(

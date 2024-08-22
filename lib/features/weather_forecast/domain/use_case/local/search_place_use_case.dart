@@ -7,7 +7,8 @@ class SearchPlaceUseCase {
 
   SearchPlaceUseCase(this._placeRepository);
 
-  Future<Resource<List<PlaceEntity>>> call(String query) {
-    return _placeRepository.searchPlace(query);
+  Future<Resource<List<PlaceEntity>>> call(
+      String query, int lastId, int limit) {
+    return _placeRepository.searchPlace(query, lastId, limit);
   }
 }
