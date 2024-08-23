@@ -1,14 +1,14 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/core/navigation/navigation.dart';
+import 'package:weather/core/utils/snack_bar_utils.dart';
+import 'package:weather/features/weather_forecast/presentation/provider/last_known_place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/weather_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/app_bar_widget.dart';
-import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/build_sunrise_sunset_widget.dart';
-import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/current_weather_widget.dart';
+import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/weather_widget/build_weather_widgets.dart';
 import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/place_search_delegate.dart';
-import 'package:weather/features/weather_forecast/presentation/screen/home_screen/widget/weather_forecast_widget.dart';
-import '../../../../../core/resource/resource.dart';
-import '../../../domain/entity/remote/current_weather_entity.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,9 +22,9 @@ class _HomeScreen extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<WeatherProvider>().getCurrentWeather("tokyo");
-      context.read<WeatherProvider>().getWeatherForecast("tokyo");
+      context.read<LastKnownPlaceProvider>().getLastKnownPlace();
     });
+    checkLocationPermission(context);
   }
 
   @override
@@ -70,14 +70,9 @@ class _HomeScreen extends State<HomeScreen> {
                         context: context,
                         delegate: PlaceSearchDelegate(context,
                             onPlaceSelected: (place) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            context
-                                .read<WeatherProvider>()
-                                .getCurrentWeather(place);
-                            context
-                                .read<WeatherProvider>()
-                                .getWeatherForecast(place);
-                          });
+                          context
+                              .read<LastKnownPlaceProvider>()
+                              .setPlace(place);
                         }));
                   })
             ],
@@ -85,36 +80,69 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   Widget _buildBody() {
-    return Consumer<WeatherProvider>(
+    return Consumer<LastKnownPlaceProvider>(
       builder: (context, provider, child) {
-        if (provider.currentWeather is Loading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (provider.currentWeather is Error) {
-          final error = (provider.currentWeather as Error).dio;
-          return Center(child: Text("Error: ${error?.error}"));
-        } else if (provider.currentWeather is Success) {
-          final weather =
-              (provider.currentWeather as Success).data as CurrentWeatherEntity;
-
-          return ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              switch (index) {
-                case 0:
-                  return buildCurrentWeatherWidget(weather, context);
-                case 1:
-                  return buildSunriseSunsetWidget(weather, context);
-                case 2:
-                  return buildWeatherForecastWidget(context);
-                default:
-                  return null;
-              }
-            },
-          );
-        } else {
-          return const Center(child: Text("No data"));
-        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context
+              .read<WeatherProvider>()
+              .getCurrentWeather(provider.place ?? "");
+          context
+              .read<WeatherProvider>()
+              .getWeatherForecast(provider.place ?? "");
+        });
+        return buildWeatherWidgets();
       },
     );
+  }
+
+  Future<void> checkLocationPermission(BuildContext context) async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    switch (permission) {
+      case LocationPermission.denied:
+        var permission = await Geolocator.requestPermission();
+
+        if (permission == LocationPermission.denied) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            buildSnackBar(context, 'Permission denied');
+          });
+        } else if (permission == LocationPermission.deniedForever) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            buildSnackBarWithAction(
+                context, 'Permission denied forever, open app settings', 'OPEN',
+                onActionClicked: () {
+              AppSettings.openAppSettings();
+            });
+          });
+        } else if (permission == LocationPermission.whileInUse ||
+            permission == LocationPermission.always) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.read<LastKnownPlaceProvider>().getPlaceFromLocation();
+          });
+        }
+        break;
+
+      case LocationPermission.deniedForever:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buildSnackBarWithAction(
+              context, 'Permission denied forever, open app settings', 'OPEN',
+              onActionClicked: () {
+            AppSettings.openAppSettings();
+          });
+        });
+        break;
+
+      case LocationPermission.whileInUse || LocationPermission.always:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.read<LastKnownPlaceProvider>().getPlaceFromLocation();
+        });
+        break;
+
+      case LocationPermission.unableToDetermine:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buildSnackBar(context, 'Oops, something went wrong!');
+        });
+        break;
+    }
   }
 }

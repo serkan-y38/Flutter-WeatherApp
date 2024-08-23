@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/core/utils/date_utils.dart';
-import '../../../../../../core/resource/resource.dart';
-import '../../../../domain/entity/remote/weather_response_entity.dart';
-import '../../../provider/weather_provider.dart';
+import '../../../../../../../core/resource/resource.dart';
+import '../../../../../domain/entity/remote/weather_response_entity.dart';
+import '../../../../provider/weather_provider.dart';
 
 Widget buildWeatherForecastWidget(BuildContext context) {
   return Padding(
@@ -16,11 +18,11 @@ Widget buildWeatherForecastWidget(BuildContext context) {
       ),
       child: Consumer<WeatherProvider>(
         builder: (context, provider, child) {
-          if (provider.weatherForecast is Loading) {
-            return const SizedBox();
-          } else if (provider.weatherForecast is Success) {
+          if (provider.weatherForecast is Success) {
+
             final weather = (provider.weatherForecast as Success).data
                 as WeatherForecastEntity;
+
             return ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -30,11 +32,18 @@ Widget buildWeatherForecastWidget(BuildContext context) {
               },
               itemCount: weather.list!.length,
             );
+
+          } else if (provider.weatherForecast is Loading) {
+            return const SizedBox();
+
           } else if (provider.weatherForecast is Error) {
             final error = (provider.weatherForecast as Error).dio;
-            return Center(child: Text("Error: ${error?.error}"));
+            log("Error: ${error?.error}");
+            return const SizedBox();
+
           } else {
-            return const Center(child: Text("No data"));
+            return const SizedBox();
+
           }
         },
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/core/di/di.dart';
 import 'package:weather/core/navigation/navigation.dart';
+import 'package:weather/features/weather_forecast/presentation/provider/last_known_place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/theme_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/weather_provider.dart';
@@ -15,6 +16,7 @@ void main() async {
       ChangeNotifierProvider<WeatherProvider>(create: (context) => singleton()),
       ChangeNotifierProvider<ThemeProvider>(create: (context) => singleton()),
       ChangeNotifierProvider<PlaceProvider>(create: (context) => singleton()),
+      ChangeNotifierProvider<LastKnownPlaceProvider>(create: (context) => singleton()),
     ],
     child: const MyApp(),
   ));

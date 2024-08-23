@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../../../../core/utils/date_utils.dart';
-import '../../../../domain/entity/remote/current_weather_entity.dart';
+import '../../../../../../../core/utils/date_utils.dart';
+import '../../../../../domain/entity/remote/current_weather_entity.dart';
 
 Widget buildCurrentWeatherWidget(
     CurrentWeatherEntity entity, BuildContext context) {

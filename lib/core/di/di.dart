@@ -11,6 +11,7 @@ import 'package:weather/features/weather_forecast/domain/use_case/local/insert_p
 import 'package:weather/features/weather_forecast/domain/use_case/local/is_places_saved_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_current_weather_use_case.dart';
 import 'package:weather/features/weather_forecast/domain/use_case/remote/get_weather_forecast_use_case.dart';
+import 'package:weather/features/weather_forecast/presentation/provider/last_known_place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/place_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/theme_provider.dart';
 import 'package:weather/features/weather_forecast/presentation/provider/weather_provider.dart';
@@ -36,9 +37,7 @@ Future<void> initializeDependencies() async {
   singleton.registerFactory<WeatherProvider>(
       () => WeatherProvider(singleton(), singleton()));
 
-
   final preference = await SharedPreferences.getInstance();
-  singleton.registerSingleton<ThemeProvider>(ThemeProvider(preference));
 
   final localDatabase =
       await $FloorAppDatabase.databaseBuilder('app_database.db').build();
@@ -59,4 +58,9 @@ Future<void> initializeDependencies() async {
 
   singleton.registerFactory<PlaceProvider>(
       () => PlaceProvider(singleton(), singleton(), singleton()));
+
+  singleton.registerSingleton<ThemeProvider>(ThemeProvider(preference));
+
+  singleton.registerSingleton<LastKnownPlaceProvider>(LastKnownPlaceProvider(preference));
+
 }

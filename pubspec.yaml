@@ -72,6 +72,11 @@ dependencies:
   # database
   floor: ^1.5.0
 
+  geolocator: ^13.0.1
+  geocoding: ^3.0.0
+
+  app_settings: ^5.1.1
+
   syncfusion_flutter_gauges: ^26.2.10
 
 dev_dependencies:
