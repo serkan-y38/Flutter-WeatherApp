@@ -28,7 +28,7 @@ Widget buildWeatherForecastWidget(BuildContext context) {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return _buildListItem(
-                    weather.list![index], weather.timezone!, context);
+                    weather.list![index], context);
               },
               itemCount: weather.list!.length,
             );
@@ -52,7 +52,7 @@ Widget buildWeatherForecastWidget(BuildContext context) {
 }
 
 Widget _buildListItem(
-    ContentEntity entity, int timeZone, BuildContext context) {
+    ContentEntity entity, BuildContext context) {
   return ExpansionTile(
     leading: CachedNetworkImage(
       width: 36,
@@ -76,8 +76,7 @@ Widget _buildListItem(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          formatDateFromTimestamp(entity.dt! + timeZone,
-              formatDateAndTime: true),
+          formatDateFromTimestamp(entity.dt! , formatDateAndTime: true),
           style: Theme.of(context)
               .textTheme
               .titleSmall

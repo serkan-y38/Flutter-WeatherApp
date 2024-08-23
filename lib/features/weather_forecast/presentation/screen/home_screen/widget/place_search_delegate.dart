@@ -7,12 +7,16 @@ import '../../../../domain/entity/local/place_entity.dart';
 
 class PlaceSearchDelegate extends SearchDelegate<PlaceEntity> {
   Function(String)? onPlaceSelected;
+  Function()? onCurrentLocation;
+
   BuildContext? context;
   String _currentQuery = "";
   final ScrollController _controller = ScrollController();
 
   PlaceSearchDelegate(this.context,
-      {required Function(String) this.onPlaceSelected}) {
+      {required Function(String) this.onPlaceSelected,
+      required Function() this.onCurrentLocation}
+      ) {
     _controller.addListener(() {
       if (_controller.position.pixels >= _controller.position.maxScrollExtent &&
           !_controller.position.outOfRange &&
@@ -55,6 +59,13 @@ class PlaceSearchDelegate extends SearchDelegate<PlaceEntity> {
         onPressed: () {
           _clear(context);
           query.isEmpty ? close(context, PlaceEntity()) : query = '';
+        },
+      ),
+      IconButton(
+        icon: const Icon(Icons.location_on),
+        onPressed: () {
+          if(onCurrentLocation != null) onCurrentLocation!();
+          close(context, PlaceEntity());
         },
       ),
     ];

@@ -34,7 +34,7 @@ Widget buildCurrentWeatherWidget(
                                     .onSurfaceVariant),
                           ),
                           Text(
-                            "${getDayOfWeek(entity.dt.toString())}, ${formatDateFromTimestamp(entity.dt! + entity.timezone!)}",
+                            "${getDayOfWeek(entity.dt.toString())}, ${formatDateFromTimestamp(entity.dt!)}",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall

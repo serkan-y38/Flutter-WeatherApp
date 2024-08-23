@@ -69,11 +69,11 @@ class _HomeScreen extends State<HomeScreen> {
                     showSearch(
                         context: context,
                         delegate: PlaceSearchDelegate(context,
-                            onPlaceSelected: (place) {
-                          context
-                              .read<LastKnownPlaceProvider>()
-                              .setPlace(place);
-                        }));
+                            onPlaceSelected: (place) => context
+                                .read<LastKnownPlaceProvider>()
+                                .setPlace(place),
+                            onCurrentLocation: () =>
+                                checkLocationPermission(context)));
                   })
             ],
         body: _buildBody());
